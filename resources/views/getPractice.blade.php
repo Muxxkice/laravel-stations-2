@@ -7,6 +7,11 @@
     <title>Practice</title>
 </head>
 <body>
-    {{-- <strong>{{ $testParam }}</strong> --}}
+    <ul>
+        @foreach ($practices as $practice)
+            <li>id: {{$practice->id}}
+                タイトル: {{ $practice->title }}</li>
+        @endforeach
+    </ul>
 </body>
 </html>
