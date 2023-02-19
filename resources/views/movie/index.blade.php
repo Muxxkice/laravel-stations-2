@@ -7,6 +7,14 @@
     <title>Practice</title>
 </head>
 <body>
-    <strong>{{ $testParam }}</strong>
+
+    <ul>
+        @foreach($movies as $movies)
+            <li> title: {{$movies->title}};
+                img: {{$movies->image_url}};
+            </li>
+        @endforeach
+    </ul>
+
 </body>
 </html>
