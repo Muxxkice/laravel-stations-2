@@ -7,7 +7,9 @@
     <title>admin</title>
 </head>
 <body>
-
+<button>
+    <a href="/admin/movies/create">新規作成</a>
+</button>
     <ul>
         @foreach($movies as $movies)
             <li> title: {{$movies->title}};</li>
@@ -22,6 +24,5 @@
             <li>published_year: {{$movies->published_year}};</li>
         @endforeach
     </ul>
-
 </body>
 </html>
