@@ -26,13 +26,12 @@ class AdminController extends Controller
 
     public function store(CreateMovieRequest $request)
     {
-        $is_showing = $request->input("is_showing") == 'on' ? 1 : 0;
         $validatedData = $request->validated();
         $movie = new Movie();
-        $movie->is_showing = $is_showing;
         $movie->title = $validatedData["title"];
         $movie->image_url = $validatedData["image_url"];
         $movie->published_year = $validatedData["published_year"];
+        $movie->is_showing = $validatedData["is_showing"];
         $movie->description = $validatedData["description"];
         $movie->save();
 
