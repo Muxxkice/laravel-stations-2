@@ -28,5 +28,7 @@ class DatabaseSeeder extends Seeder
             'description' => '青春ストーリー',
             'is_showing' => '1'
         ]);
+
+        Movie::factory()->count(30)->create();
     }
 }

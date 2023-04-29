@@ -13,8 +13,9 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $movies = Movie::all();
-        dump($movies);
+        $movies = Movie::paginate(10);
+        // ->withQueryString();
+
         return view('admin/index', ['movies' => $movies]);
     }
 
