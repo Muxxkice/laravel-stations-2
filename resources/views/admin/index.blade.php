@@ -24,6 +24,11 @@
             <li>published_year: {{$movies->published_year}};</li>
             <li>{{$movies->id}};</li>
             <a href="{{route('admin.edit',['id' => $movies->id ])}}">編集</a>
+
+            <form action="{{route('admin.destroy',['id' => $movies->id ])}}" method="DELETE">
+                @csrf
+                <button type="submit">削除</button>
+            </form>
         @endforeach
     </ul>
 </body>

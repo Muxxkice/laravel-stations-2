@@ -64,5 +64,18 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->withErrors(['success' => 'Movie created successfully.']);
     }
 
+    public function destroy($id)
+    {
+
+        $movie = Movie::find($id);
+
+        if ($movie) {
+            $movie->delete();
+            return redirect()->route('admin.index')->withErrors(['success' => 'Movie deleted successfully.']);
+        } else {
+            return abort(404);
+        }
+    }
+
 }
 
