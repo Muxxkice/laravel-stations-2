@@ -22,6 +22,8 @@
             <li>img: {{$movies->image_url}};</li>
             <li>description: {{$movies->description}};</li>
             <li>published_year: {{$movies->published_year}};</li>
+            <li>{{$movies->id}};</li>
+            <a href="{{route('admin.edit',['id' => $movies->id ])}}">編集</a>
         @endforeach
     </ul>
 </body>
