@@ -11,10 +11,30 @@ use App\Models\Movie;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::paginate(10);
-        // ->withQueryString();
+
+        $movies = Movie::query();
+
+        $search_word = $request['search_word'];
+        $is_showing = $request['is_showing'];
+        if ($search_word !== null) {
+            // 全角を半角に
+            $search_split = mb_convert_kana($search_word,'s');
+            // カンマまたは " ", \r, \t, \n , \f などの空白文字で句を分割する。
+            $search_split = preg_split("/[\s,]+/", $search_split);
+            dump($search_split);
+            foreach($search_split as $value){
+                $movies->where('title','description','like','%'.$value.'%');
+            };
+        };
+        if ($is_showing !== null) {
+            $movies->where('is_showing', $is_showing);
+        }
+
+        dump($movies);
+        $movies = $movies->paginate(20);
+
 
         return view('admin/index', ['movies' => $movies]);
     }

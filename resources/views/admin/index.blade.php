@@ -10,6 +10,12 @@
 <button>
     <a href="/admin/movies/create">新規作成</a>
 </button>
+<form action="{{route('admin.index')}}" method="GET">
+    <input type="text" name="search_word">
+    <input name="is_showing" type="checkbox" id="on" value="1"><label for="on">上映中</label><br>
+    <input name="is_showing" type="checkbox" id="off" value="0"><label for="off">上映予定</label><br>
+    <button type="submit">検索</button>
+</form>
     <div>
             @foreach($movies as $movie)
                 <div>
