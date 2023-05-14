@@ -30,6 +30,7 @@ class CreateMovieRequest extends FormRequest
             'description' => 'required',
             'is_showing' => 'required',
             'description' => 'required',
+            'genre' => 'required',
         ];
     }
 }

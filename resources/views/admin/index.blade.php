@@ -20,6 +20,7 @@
             @foreach($movies as $movie)
                 <div>
                     <ul>
+                        <li>{{$movie->id}}</li>
                         <li> title: {{$movie->title}}</li>
                         <li>is_showing {{$movie->image_url}}</li>
                         @if($movie->is_showing == 0)
@@ -30,7 +31,7 @@
                         <li>img: {{$movie->image_url}}</li>
                         <li>description: {{$movie->description}}</li>
                         <li>published_year: {{$movie->published_year}}</li>
-                        <li>{{$movie->id}}</li>
+                        <li>genre_id: {{$movie->genre->name}}</li>
                     </ul>
                     <a href="{{route('admin.edit',['id' => $movie->id ])}}">編集</a>
                     <form action="{{route('admin.destroy',['id' => $movie->id ])}}" method="DELETE">

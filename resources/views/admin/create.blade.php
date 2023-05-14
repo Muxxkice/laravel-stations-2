@@ -22,6 +22,10 @@ dump($_POST);
     <br>
     <input name="title" type="text">
     <br>
+    <label for="genre">ジャンル</label>
+    <br>
+    <input name="genre" type="text">
+    <br>
     <label for="image_url">画像URL</label>
     <br>
     <input name="image_url" type="text" name="">

@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+// use DB;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
-
+use App\Models\Genre;
 
 class AdminController extends Controller
 {
     public function index(Request $request)
     {
 
-        $movies = Movie::query();
-
+        $movies = Movie::with('genre');
+        // $genres = Genre::all();
         $search_word = $request['search_word'];
         $is_showing = $request['is_showing'];
         if ($search_word !== null) {
@@ -23,7 +24,6 @@ class AdminController extends Controller
             $search_split = mb_convert_kana($search_word,'s');
             // カンマまたは " ", \r, \t, \n , \f などの空白文字で句を分割する。
             $search_split = preg_split("/[\s,]+/", $search_split);
-            dump($search_split);
             foreach($search_split as $value){
                 $movies->where('title','description','like','%'.$value.'%');
             };
@@ -36,7 +36,7 @@ class AdminController extends Controller
         $movies = $movies->paginate(20);
 
 
-        return view('admin/index', ['movies' => $movies]);
+        return view('admin/index', ['movies' => $movies,]);
     }
 
     public function create()
@@ -48,39 +48,53 @@ class AdminController extends Controller
     public function store(CreateMovieRequest $request)
     {
         $validatedData = $request->validated();
+
+        DB::transaction(function () use ($validatedData){
+
         $movie = new Movie();
+        $genre = Genre::firstOrCreate(['name' => $validatedData['genre']]);
+
         $movie->title = $validatedData["title"];
         $movie->image_url = $validatedData["image_url"];
         $movie->published_year = $validatedData["published_year"];
         $movie->is_showing = $validatedData["is_showing"];
+
         $movie->description = $validatedData["description"];
+        $movie->genre_id = $genre->id;
         $movie->save();
 
-        // return view('admin/store');
-        // return redirect()->route('admin/index');
-        return redirect()->route('admin.index')->withErrors(['success' => 'Movie created successfully.']);
+        });
+
+        return redirect()->route('admin.index')->with('success', 'Movie created successfully.');
     }
 
     public function edit($id)
     {
 
-        $movie = Movie::find($id);
-        dump($movie);
-        return view('admin.edit', ['movies' => $movie]);
+        $movie = Movie::with('genre')->find($id);
+
+        return view('admin.edit', ['movie' => $movie]);
     }
 
     public function update(UpdateMovieRequest $request,$id)
     {
-        $movie = Movie::find($id);
 
-        $validatedData = $request->validated();
+        DB::transaction(function () use ($request,$id){
 
-        $movie->title = $validatedData["title"];
-        $movie->image_url = $validatedData["image_url"];
-        $movie->published_year = $validatedData["published_year"];
-        $movie->is_showing = $validatedData["is_showing"];
-        $movie->description = $validatedData["description"];
-        $movie->save();
+            $validatedData = $request->validated();
+            $movie = Movie::with('genre')->find($id);
+            $genre = Genre::firstOrCreate(['name' => $validatedData['genre']]);
+
+            $movie->title = $validatedData["title"];
+            $movie->image_url = $validatedData["image_url"];
+            $movie->published_year = $validatedData["published_year"];
+            $movie->is_showing = $validatedData["is_showing"];
+
+            $movie->description = $validatedData["description"];
+            $movie->genre_id = $genre->id;
+            $movie->save();
+
+            });
 
         return redirect()->route('admin.index')->withErrors(['success' => 'Movie created successfully.']);
     }
