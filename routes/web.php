@@ -22,8 +22,10 @@ Route::get('/practice2', [PracticeController::class, 'sample2']);
 Route::get('/practice3', [PracticeController::class, 'sample3']);
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
-Route::get('/movies', [MovieController::class, 'index'])->name('movie.index');;
+Route::get('/movies', [MovieController::class, 'index'])->name('movie.index');
+Route::get('/sheets', [MovieController::class, 'sheets'])->name('movie.sheets');
 
+// 管理者画面
 Route::get('/admin/movies', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/admin/movies/create', [AdminController::class, 'create']);
 Route::post('/admin/movies/store', [AdminController::class, 'store']);

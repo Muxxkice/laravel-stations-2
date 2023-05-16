@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Sheet;
 class MovieController extends Controller
 {
     public function index(Request $request)
@@ -30,5 +31,15 @@ class MovieController extends Controller
         $movies = $query->paginate(20);
 
         return view('movie/index', ['movies' => $movies]);
+    }
+
+    public function sheets()
+    {
+        $sheets = Sheet::all();
+        $count = Sheet::count();
+        dump($sheets);
+        dump($count);
+
+        return view('movie/sheets', ['sheets' => $sheets]);
     }
 }
