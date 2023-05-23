@@ -22,13 +22,16 @@ Route::get('/practice2', [PracticeController::class, 'sample2']);
 Route::get('/practice3', [PracticeController::class, 'sample3']);
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
-Route::get('/movies', [MovieController::class, 'index'])->name('movie.index');
-Route::get('/sheets', [MovieController::class, 'sheets'])->name('movie.sheets');
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+Route::get('/movies/{id}', [MovieController::class, 'sheets'])->name('movies.show');
+Route::get('/sheets', [MovieController::class, 'sheets'])->name('movies.sheets');
+
 
 // 管理者画面
 Route::get('/admin/movies', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/admin/movies/create', [AdminController::class, 'create']);
 Route::post('/admin/movies/store', [AdminController::class, 'store']);
+Route::get('/admin/movies/{id}', [AdminController::class, 'show'])->name('admin.show');
 Route::get('/admin/movies/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 Route::get('/admin/movies/{id}/update', [AdminController::class, 'update'])->name('admin.update');
 Route::patch('/admin/movies/{id}/update', [AdminController::class, 'update'])->name('admin.update');

@@ -30,7 +30,7 @@ class MovieController extends Controller
 
         $movies = $query->paginate(20);
 
-        return view('movie/index', ['movies' => $movies]);
+        return view('movies/index', ['movies' => $movies]);
     }
 
     public function sheets()
@@ -40,6 +40,6 @@ class MovieController extends Controller
         dump($sheets);
         dump($count);
 
-        return view('movie/sheets', ['sheets' => $sheets]);
+        return view('movies/sheets', ['sheets' => $sheets]);
     }
 }
