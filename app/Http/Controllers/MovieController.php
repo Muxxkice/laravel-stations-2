@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Sheet;
+use App\Models\Genre;
+use App\Models\Schedule;
+
 class MovieController extends Controller
 {
     public function index(Request $request)
     {
-        $query= Movie::query();
+        $query= Movie::with('genre');
 
         $keyword = $request['keyword'];
         $is_showing = $request['is_showing'];
@@ -21,7 +24,7 @@ class MovieController extends Controller
             // dump($search_split);
             foreach($search_split as $value){
                 $query->where('title','like','%'.$value.'%')
-                      ->orWhere('description','like','%'.$value.'%');
+                    ->orWhere('description','like','%'.$value.'%');
             };
         };
         if ($is_showing !== null) {
@@ -30,7 +33,7 @@ class MovieController extends Controller
 
         $movies = $query->paginate(20);
 
-        return view('movies/index', ['movies' => $movies]);
+        return view('movies.index', ['movies' => $movies]);
     }
 
     public function sheets()
@@ -41,5 +44,14 @@ class MovieController extends Controller
         dump($count);
 
         return view('movies/sheets', ['sheets' => $sheets]);
+    }
+
+    public function show($id)
+    {
+        $movie = Movie::with('genre')->find($id);
+        $schedules = Schedule::where('movie_id', $id)->orderBy('created_at', 'desc')->get();
+        dump($schedules);
+
+        return view('movies.show', ['movie' => $movie,'schedules'=>$schedules]);
     }
 }
